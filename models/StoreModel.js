@@ -13,6 +13,15 @@ const storeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  originalQuantity: {
+    type: Number,
+    required: true,
+  },
+  sizes: {
+    type: Array,
+    required: true,
+  },
+  consolidatedItemId: String,
 });
 
 // if this is not working, it means that you missed out the tansform option

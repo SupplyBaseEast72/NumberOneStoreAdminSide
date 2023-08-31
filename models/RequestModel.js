@@ -26,6 +26,10 @@ const requestSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  returnDate: {
+    type: String,
+    required: true,
+  },
   status: {
     type: String,
     default: "Pending",
