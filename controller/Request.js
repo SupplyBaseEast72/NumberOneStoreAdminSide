@@ -49,6 +49,24 @@ requestRouter.get("/:id", async (req, res) => {
   res.status(200).send(request);
 });
 
+// find all requests associated with an id
+requestRouter.get("/findAllAssociatedRequests/main/:id", async (req, res) => {
+  const { id } = req.params;
+  const associatedReq = await Request.find({ "requestedItems.id": id });
+  res.status(200).send(associatedReq);
+});
+
+requestRouter.get(
+  "/findAllAssociatedRequests/variations/:id",
+  async (req, res) => {
+    const { id } = req.params;
+    const associatedReq = await Request.find({
+      "requestedItems.consolidatedItemId": id,
+    });
+    res.status(200).send(associatedReq);
+  }
+);
+
 // add a new request
 requestRouter.post("/", async (req, res) => {
   const newRequest = new Request({

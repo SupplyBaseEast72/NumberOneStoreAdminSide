@@ -24,6 +24,15 @@ storeRouter.get("/:id", async (req, res) => {
   res.status(200).json(storeItem);
 });
 
+// find store item and its variations / sizes
+storeRouter.get("/findAllVariations/:id", async (req, res) => {
+  const { id } = req.params;
+  const mainItemReq = Store.findById(id);
+  const variationsReq = Store.find({ consolidatedItemId: id });
+  const allItems = await Promise.all([mainItemReq, variationsReq]);
+  res.status(200).send(allItems.flat());
+});
+
 // to update the quantities of the items in the store
 storeRouter.put("/post-request/downstock", async (req, res) => {
   // the requested items will be put in the body
