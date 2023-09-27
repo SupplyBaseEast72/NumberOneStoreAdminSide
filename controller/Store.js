@@ -220,6 +220,35 @@ storeRouter.put("/post-return/upstock", async (req, res) => {
   res.status(200).json(newStoreList);
 });
 
+storeRouter.put("/adjustStoreQuantity", async (req, res) => {
+  // req body will state if the item is a main item or side item;
+  const type = req.body.type;
+  let newItem = await Store.findByIdAndUpdate(
+    req.body.id,
+    { [req.body.field]: req.body.newQuantity },
+    {
+      new: true,
+    }
+  );
+
+  if (type === "variation") {
+    const { preEditingQuantity } = req.body;
+    const consolidatedItem = await Store.findById(req.body.consolidatedItemId);
+    const newQuantity =
+      Number(consolidatedItem[req.body.field]) +
+      Number(req.body.newQuantity) -
+      Number(preEditingQuantity);
+    newItem = await Store.findByIdAndUpdate(
+      req.body.consolidatedItemId,
+      {
+        [req.body.field]: newQuantity,
+      },
+      { new: true }
+    );
+  }
+
+  res.status(200).send(newItem);
+});
 // add a new item to the storeDB. returns the newly added item
 storeRouter.post("/", async (req, res) => {
   const newEntry = new Store(req.body);

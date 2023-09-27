@@ -38,9 +38,19 @@ userRouter.post("/login", async (req, res) => {
   // if the match is successful, add a jwt to the local storage
   if (match) {
     const token = jwt.sign(modifiedUser, secretKey, { expiresIn: "48h" });
-    res.status(200).send({ token, username: user.username });
+    res.status(200).send({ ok: true, token, username: user.username });
   } else {
     res.status(404).send({ error: "Login unsuccessful" });
+  }
+});
+
+userRouter.post("/verify", async (req, res) => {
+  const user = req.body;
+  try {
+    const result = jwt.verify(user.token, secretKey);
+    return res.status(200).send({ ok: true, ...user });
+  } catch (err) {
+    return res.status(200).send({ error: "User not logged in" });
   }
 });
 

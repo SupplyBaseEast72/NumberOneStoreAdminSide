@@ -90,7 +90,6 @@ requestRouter.put("/:id", async (req, res) => {
 
 requestRouter.delete("/:id", verifyUser, async (req, res) => {
   const deletedRequest = await Request.findByIdAndDelete(req.params.id);
-  console.log(deletedRequest);
   res.status(200).send(deletedRequest);
 });
 
