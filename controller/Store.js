@@ -256,4 +256,15 @@ storeRouter.post("/", async (req, res) => {
   res.status(201).json(entryResult);
 });
 
+storeRouter.delete("/:id", async (req, res) => {
+  const deletedItem = await Store.findByIdAndDelete(req.params.id);
+  console.log(deletedItem);
+  if (deletedItem.sizes.length > 0) {
+    console.log("WE are hereee");
+    console.log(deletedItem._id.toString());
+    await Store.deleteMany({ consolidatedItemId: deletedItem._id.toString() });
+  }
+  res.status(200).send(deletedItem);
+});
+
 module.exports = storeRouter;
