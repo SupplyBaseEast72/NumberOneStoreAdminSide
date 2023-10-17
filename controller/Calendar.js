@@ -3,10 +3,10 @@ const axios = require("axios");
 
 calendarRouter.post("/", async (req, res) => {
   const response = await axios.post(
-    "https://script.google.com/macros/s/AKfycbzJiekbfXcffgqW1Gl3Iv_9TP5MuBWvEuiLVG2CMad0nRxosyq1OCGssYOu5i7v3RwqUA/exec",
+    "https://script.google.com/macros/s/AKfycbzEsbkojVCiPBxxye41SBMq3RhL9Z2jkoh028xUE5NzauHLW9BBbcJHFLhuJl56gIwavA/exec",
     req.body
   );
-  res.send(200);
+  res.status(200).send({ ok: true });
 });
 
 module.exports = calendarRouter;
